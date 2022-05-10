@@ -7,7 +7,7 @@ import InfoCard from './InfoCard';
 const Info = () => {
     const cardDetail = [
         {"_id":1,"heading":"Opening Hours","content":'Lorem Ipsum is simply dummy text of the pri',"img":clock,"bg":'bg-gradient-to-r from-secondary to-primary'},
-        {"_id":2,"heading":"Visit our location","content":'Brooklyn, NY 10036, United States',"img":marker,"bg":'dark'},
+        {"_id":2,"heading":"Visit our location","content":'Brooklyn, NY 10036, United States',"img":marker,"bg":'bg-accent'},
         {"_id":3,"heading":"Contact us now","content":'+000 123 456789',"img":phone,"bg":'bg-gradient-to-r from-secondary to-primary'},
     ]
     return (
