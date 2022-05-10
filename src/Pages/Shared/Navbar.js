@@ -53,7 +53,7 @@ const Navbar = () => {
             {menuItem}
           </ul>
         </div>
-        <a class="btn btn-ghost normal-case text-2xl">Doctors Portal</a>
+        <a class="btn btn-ghost normal-case ml-1 lg:ml-16 text-2xl font-semibold">Doctors Portal</a>
       </div>
       <div class="navbar-end hidden lg:flex">
         <ul class="menu menu-horizontal mr-8">
@@ -63,6 +63,7 @@ const Navbar = () => {
       {/* <div class="navbar-end">
         <a class="btn">Get started</a>
       </div> */}
+      
     </div>
   );
 };

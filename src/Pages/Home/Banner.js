@@ -14,7 +14,7 @@ const Banner = () => {
           <p class="py-3 lg:py-6 w-5/6 lg:w-3/4 ">
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
           </p>
-          <button class="btn btn-primary">Get Started</button>
+          <button class="btn btn-primary uppercase text-white font-bold bg-gradient-to-r from-secondary to-primary">Get Started</button>
         </div>
       </div>
     </div>
