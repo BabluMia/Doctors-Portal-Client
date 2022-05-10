@@ -3,8 +3,8 @@ import React from "react";
 const Service = ({singleSer}) => {
     const {img,heading , content} = singleSer
   return (
-    <div class="card w-96 bg-base-100 shadow-xl">
-      <figure class="px-10 pt-10">
+    <div class="card w-90  bg-base-100 shadow-xl">
+      <figure class="px-1 pt-10">
         <img
           src={img}
           alt="Shoes"

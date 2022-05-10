@@ -16,7 +16,7 @@ const Services = () => {
             <h1 className='capitalize text-primary text-2xl font-bold'>our services</h1>
             <h1 className='capitalize  text-4xl  my-3'> services we provide</h1>
             </div>
-            <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 mx-8 mb-10'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-6 md:mx-10 lg:mx-12 mb-10'>
                 {
                     serviceDetail.map(
                         singleSer => <Service key={singleSer._id} singleSer={singleSer}></Service>
