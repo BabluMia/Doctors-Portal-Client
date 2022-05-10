@@ -15,7 +15,7 @@ const Navbar = () => {
 
       <li className="mx-2">
         <Link
-          to={"/apoinment"}
+          to={"/appointment"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
         >
           APOINMENT
