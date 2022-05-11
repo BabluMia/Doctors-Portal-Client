@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const menuItem = (
     <>
-      <li className="mx-2">
+      <li className="">
         <Link
           to={"/"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
@@ -13,7 +13,7 @@ const Navbar = () => {
         </Link>
       </li>
 
-      <li className="mx-2">
+      <li className="">
         <Link
           to={"/appointment"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
@@ -21,7 +21,7 @@ const Navbar = () => {
           APOINMENT
         </Link>
       </li>
-      <li className="mx-2">
+      <li className="">
         <Link
           to={"/review"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
@@ -29,7 +29,7 @@ const Navbar = () => {
           REVIEW
         </Link>
       </li>
-      <li className="mx-2">
+      <li className="">
         <Link
           to={"/contact"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
@@ -37,7 +37,7 @@ const Navbar = () => {
           CONTACT US
         </Link>
       </li>
-      <li className="mx-2">
+      <li className="">
         <Link
           to={"/about"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
@@ -45,7 +45,7 @@ const Navbar = () => {
           ABOUT
         </Link>
       </li>
-      <li className="mx-2">
+      <li className="">
         <Link
           to={"/login"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
