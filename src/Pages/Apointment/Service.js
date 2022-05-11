@@ -1,11 +1,11 @@
 import React from "react";
 
-const Service = ({ service , setTreatment }) => {
+const Service = ({ service, setTreatment }) => {
   const { name, slots } = service;
   return (
     <>
-      <div class="card mx-auto  w-96 shadow-lg text-primary-content">
-        <div class="card-body items-center text-center">
+      <div className="card mx-auto  w-96 shadow-lg text-primary-content">
+        <div className="card-body items-center text-center">
           <h2 className=" card-title text-secondary">{name}</h2>
           <p className="text-center">
             {slots.length ? (
@@ -17,16 +17,21 @@ const Service = ({ service , setTreatment }) => {
           <p className="text-center">
             {slots.length} {slots.length > 0 ? "Spaces" : "Space"} Available
           </p>
-          <div class="card-actions justify-center">
-            <label onClick={()=> setTreatment(service)}
-              disabled={slots.length === 0} for="booking-modal" class="btn modal-button  btn-primary uppercase text-white font-bold bg-gradient-to-r from-secondary to-primary"> Book Apointment</label>
+          <div className="card-actions justify-center">
+            <label
+              onClick={() => setTreatment(service)}
+              disabled={slots.length === 0}
+              for="booking-modal"
+              className="btn modal-button  btn-primary uppercase text-white font-bold bg-gradient-to-r from-secondary to-primary"
+            >
+              {" "}
+              Book Apointment
+            </label>
           </div>
         </div>
       </div>
 
       {/* modal */}
-
-     
 
       {/* <!-- Put this part before </body> tag --> */}
     </>
