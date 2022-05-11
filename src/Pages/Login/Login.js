@@ -1,24 +1,53 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { toast } from "react-toastify";
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
 import swal from "sweetalert";
+import Loading from "../Shared/Loading";
 
 const Login = () => {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-  const handleLogin = (event) => {
-    event.preventDefault();
-    console.log("working");
-    swal("Good job!", "You clicked the button!", "success");
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
+  const onSubmit = (data) => {
+    // console.log(data);
+    signInWithEmailAndPassword(data.email , data.password)
   };
 
   const handleGoogle = () => {
     signInWithGoogle();
   };
-  if (error) {
+  //   navigate
+  useEffect(() => {
+    if (user || gUser) {
+      navigate(from, { replace: true });
+      console.log(user || gUser);
+    }
+  }, [user, gUser, from, navigate]);
+
+  // loading
+
+  if (loading || gLoading) {
+      return <Loading/>
+  }
+  //   error
+  if (error || gError) {
     swal({
-      title: "Firebase Error",
+      title: "Please Solve This Error",
       text: error.message,
       icon: "error",
     });
@@ -28,26 +57,72 @@ const Login = () => {
       <div className="  card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-center mx-auto">LOGIN </h2>
-          <form action="" onSubmit={handleLogin}>
-            <label className="label ">
-              <span className="label-text text-left">Email</span>
-            </label>
-            <input
-              name="email"
-              type="text"
-              placeholder="Email"
-              className="input input-bordered w-full"
-            />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="input input-bordered w-full max-w-xs"
+                {...register("email", {
+                  required: {
+                    value: true,
+                    message: "Email is Required",
+                  },
+                  pattern: {
+                    value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                    message: "Provide a valid Email",
+                  },
+                })}
+              />
+              <label className="label">
+                {errors.email?.type === "required" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.email.message}
+                  </span>
+                )}
+                {errors.email?.type === "pattern" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.email.message}
+                  </span>
+                )}
+              </label>
+            </div>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                className="input input-bordered w-full max-w-xs"
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Password is Required",
+                  },
+                  minLength: {
+                    value: 6,
+                    message: "Must be 6 characters or longer",
+                  },
+                })}
+              />
+              <label className="label">
+                {errors.password?.type === "required" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
+              </label>
+            </div>
 
-            <label className="label">
-              <span className="label-text">Password</span>
-            </label>
-            <input
-              name="password"
-              type="text"
-              placeholder="Password"
-              className="input input-bordered w-full"
-            />
             <label className="label">
               <a href="#" className="label-text-alt link link-hover">
                 Forgot password?

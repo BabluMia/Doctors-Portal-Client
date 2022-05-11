@@ -1,7 +1,19 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
+import auth from "../../firebase.init";
+import Loading from "./Loading";
+import {  signOut } from 'firebase/auth';
 
 const Navbar = () => {
+  const [user, loading] = useAuthState(auth);
+  if(loading){
+    return <Loading/>
+  }
+
+  const logOut = () =>{
+    signOut(auth)
+  }
   const menuItem = (
     <>
       <li className="">
@@ -45,7 +57,14 @@ const Navbar = () => {
           ABOUT
         </Link>
       </li>
-      <li className="">
+      {
+        user ? <li className="">
+        <a onClick={logOut}
+          className="hover:bg-[#3A4256] hover:text-white rounded-lg"
+        >
+          LOGOUT
+        </a>
+      </li> : <li className="">
         <Link
           to={"/login"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
@@ -53,6 +72,7 @@ const Navbar = () => {
           LOGIN
         </Link>
       </li>
+      }
     </>
   );
 
