@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import auth from "../../firebase.init";
 import Loading from "./Loading";
 import {  signOut } from 'firebase/auth';
+import swal from "sweetalert";
 
 const Navbar = () => {
   const [user, loading] = useAuthState(auth);
@@ -13,6 +14,11 @@ const Navbar = () => {
 
   const logOut = () =>{
     signOut(auth)
+    swal({
+      title: "Logout Notification",
+      text: 'Succesfully Logged Out',
+      icon: "success"
+    });
   }
   const menuItem = (
     <>

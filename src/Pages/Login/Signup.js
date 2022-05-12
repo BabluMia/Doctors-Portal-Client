@@ -2,17 +2,19 @@ import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import {
-  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
+  useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import Loading from "../Shared/Loading";
 
-const Login = () => {
+const Signup = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
   const {
     register,
     formState: { errors },
@@ -23,9 +25,11 @@ const Login = () => {
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // console.log(data);
-    signInWithEmailAndPassword(data.email, data.password);
+    await createUserWithEmailAndPassword(data.email, data.password);
+    await updateProfile({ displayName: data.name });
+    navigate("/appointment");
   };
 
   const handleGoogle = () => {
@@ -34,34 +38,35 @@ const Login = () => {
   //   navigate
   useEffect(() => {
     if (user || gUser) {
-      navigate(from, { replace: true });
       console.log(user || gUser);
-      if (user) {
+      if(user){
+          swal({
+        title: "Account Create",
+        text: "Succesfully Create By Emaill Password",
+        icon: "success",
+      });
+      }else if(gUser){
         swal({
-          title: "Account Login",
-          text: "Succesfully Login By Emaill Password",
-          icon: "success",
-        });
-      } else if (gUser) {
-        swal({
-          title: "Google Login",
-          text: "Succesfully Login By Google",
-          icon: "success",
-        });
+            title: "Account Create",
+            text: "Succesfully Create By Google",
+            icon: "success",
+          });
       }
+      
+      navigate("/appointment");
     }
   }, [user, gUser, from, navigate]);
 
   // loading
 
-  if (loading || gLoading) {
+  if (loading || gLoading || updating) {
     return <Loading />;
   }
   //   error
-  if (error || gError) {
+  if (error || gError || updateError) {
     swal({
       title: "Please Solve This Error",
-      text: error?.message || gError?.message,
+      text: error?.message || gError?.message || updateError?.message,
       icon: "error",
     });
   }
@@ -69,9 +74,30 @@ const Login = () => {
     <div className="flex justify-center items-center h-screen">
       <div className="  card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title text-center mx-auto">LOGIN </h2>
+          <h2 className="card-title text-center mx-auto">SIGNUP </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="input input-bordered w-full max-w-xs"
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Name is Required",
+                  },
+                })}
+              />
+              <label className="label">
+                {errors.name?.type === "required" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
@@ -136,11 +162,7 @@ const Login = () => {
               </label>
             </div>
 
-            <label className="label">
-              <a href="#" className="label-text-alt link link-hover">
-                Forgot password?
-              </a>
-            </label>
+            
 
             <div className="form-control mt-3">
               <input
@@ -151,9 +173,9 @@ const Login = () => {
             </div>
           </form>
           <p className="text-sm text-center">
-            New In Doctor's Portal?{" "}
-            <Link to={"/signup"}>
-              <span className="text-secondary">Create an acccount</span>
+            Already Have An Account?{" "}
+            <Link to={"/login"}>
+              <span className="text-secondary">Please Go To Login</span>
             </Link>
           </p>
           <div className="divider">OR</div>
@@ -171,4 +193,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
