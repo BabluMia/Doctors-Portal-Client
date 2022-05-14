@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import swal from "sweetalert";
 import auth from "../../firebase.init";
 
-const BookingModal = ({ treatment, date, setTreatment }) => {
+const BookingModal = ({ treatment, date, setTreatment ,refetch }) => {
   const { _id, name, slots } = treatment;
   const [user] = useAuthState(auth);
   const formattedDate = format(date, "PP");
@@ -24,28 +24,36 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
     console.log(booking);
     // event.target.reset();
 
-    fetch('http://localhost:5000/booking', {
-      method: 'POST',
+    fetch("http://localhost:5000/booking", {
+      method: "POST",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json",
       },
-      body: JSON.stringify(booking)
+      body: JSON.stringify(booking),
     })
-
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
+        if (data.success) {
+          swal({
+            title: `Booking By ${user.displayName}`,
+            text: `Succesfully booked An  Apointment On ${formattedDate}  At ${slot}`,
+            icon: "success",
+          });
+
+        } 
+        else{
+         
+          swal({
+            title: `Apointment Of  ${user.displayName}`,
+            text: `Already Have An Apointment  Apointment On ${data.booking?.date}  At ${data.booking?.slot}`,
+            icon: "error",
+          });
+        }
         setTreatment(null);
-        swal({
-          title: "Booking Notification",
-          text: `Succesfully booked An  Apointment By ${user.displayName} At ${slot}`,
-          icon: "success",
-        });
+        refetch()
       });
   };
-
-
- 
 
   return (
     <div className="mx-auto">

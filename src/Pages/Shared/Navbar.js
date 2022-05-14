@@ -52,7 +52,7 @@ const Navbar = () => {
           to={"/contact"}
           className="hover:bg-[#3A4256] hover:text-white rounded-lg"
         >
-          CONTACT US
+          CONTACT
         </Link>
       </li>
       <li className="">
@@ -63,6 +63,16 @@ const Navbar = () => {
           ABOUT
         </Link>
       </li>
+      {
+        user && <li className="">
+        <Link
+          to={"/dashboard"}
+          className="hover:bg-[#3A4256] hover:text-white rounded-lg"
+        >
+          DASHBOARD
+        </Link>
+      </li>
+      }
       {
         user ? <li className="">
         <a onClick={logOut}
@@ -104,7 +114,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex="0"
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box "
           >
             {menuItem}
           </ul>
