@@ -8,6 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import Loading from "../Shared/Loading";
+import useToken from "../../Hooks/useToken";
 
 const Login = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
@@ -18,6 +19,7 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const [token] = useToken(user || gUser)
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,15 +28,22 @@ const Login = () => {
   const onSubmit = (data) => {
     // console.log(data);
     signInWithEmailAndPassword(data.email, data.password);
+    
   };
 
   const handleGoogle = () => {
     signInWithGoogle();
   };
+  useEffect(()=>{
+    if(token){
+    navigate(from, { replace: true });
+  }
+  },[token, from, navigate])
+  
   //   navigate
   useEffect(() => {
     if (user || gUser) {
-      navigate(from, { replace: true });
+      
       console.log(user || gUser);
       if (user) {
         swal({

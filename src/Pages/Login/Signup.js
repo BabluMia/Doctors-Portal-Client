@@ -9,6 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import Loading from "../Shared/Loading";
+import useToken from "../../Hooks/useToken";
 
 const Signup = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
@@ -21,6 +22,8 @@ const Signup = () => {
     handleSubmit,
   } = useForm();
 
+  const [token] = useToken(user || gUser);
+
   const navigate = useNavigate();
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
@@ -29,33 +32,37 @@ const Signup = () => {
     // console.log(data);
     await createUserWithEmailAndPassword(data.email, data.password);
     await updateProfile({ displayName: data.name });
-    navigate("/appointment");
+
+    
   };
 
   const handleGoogle = () => {
     signInWithGoogle();
   };
   //   navigate
-  useEffect(() => {
-    if (user || gUser) {
-      console.log(user || gUser);
-      if(user){
-          swal({
-        title: "Account Create",
-        text: "Succesfully Create By Emaill Password",
-        icon: "success",
-      });
-      }else if(gUser){
-        swal({
-            title: "Account Create",
-            text: "Succesfully Create By Google",
-            icon: "success",
-          });
-      }
-      
-      navigate("/appointment");
-    }
-  }, [user, gUser, from, navigate]);
+  // useEffect(() => {
+  //   if (user || gUser) {
+  //     console.log(user || gUser);
+  //     if(user){
+    // swal({
+    //   title: "Account Create",
+    //   text: "Succesfully Create By Emaill Password",
+    //   icon: "success",
+    // });
+  //     }else if(gUser){
+  // swal({
+  //   title: "Account Create",
+  //   text: "Succesfully Create By Google",
+  //   icon: "success",
+  // });
+  //     }
+
+  //     navigate("/appointment");
+  //   }
+  // }, [user, gUser, from, navigate]);
+  if (token) {
+    navigate("/appointment");
+  }
 
   // loading
 
@@ -161,8 +168,6 @@ const Signup = () => {
                 )}
               </label>
             </div>
-
-            
 
             <div className="form-control mt-3">
               <input
