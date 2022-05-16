@@ -9,15 +9,26 @@ const UserRow = ({ user, index,refetch }) => {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status === 403){
+          swal({
+            title: "Admin Making Error",
+            text: "Faild To Make An Admin",
+            icon: "error",
+          });
+        }
+        return res.json()
+      })
       .then((data) => {
         console.log(data);
-        swal({
-          title: "Admin Information",
-          text: "Succesfully Added Admin",
-          icon: "success",
-        });
-        refetch()
+        if(data.modifiedCount > 0){
+          swal({
+            title: "Admin Information",
+            text: "Succesfully Added Admin",
+            icon: "success",
+          });
+          refetch()
+        }
       });
   };
   return (
