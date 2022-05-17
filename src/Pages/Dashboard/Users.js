@@ -9,7 +9,7 @@ import UserRow from './UserRow';
 const Users = () => {
     const [user] = useAuthState(auth)
     const { isLoading, error, data:users ,refetch} = useQuery(['users',user], () =>
-     fetch(`http://localhost:5000/user`,{
+     fetch(`https://floating-castle-51900.herokuapp.com/user`,{
         method:"GET",
         headers:{
           'authorization':`Bearer ${localStorage.getItem('accessToken')}`,

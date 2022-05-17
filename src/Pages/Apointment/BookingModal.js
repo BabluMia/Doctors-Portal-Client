@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import swal from "sweetalert";
 import auth from "../../firebase.init";
 
-const BookingModal = ({ treatment, date, setTreatment ,refetch }) => {
+const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
   const { _id, name, slots } = treatment;
   const [user] = useAuthState(auth);
   const formattedDate = format(date, "PP");
@@ -24,7 +24,7 @@ const BookingModal = ({ treatment, date, setTreatment ,refetch }) => {
     console.log(booking);
     // event.target.reset();
 
-    fetch("http://localhost:5000/booking", {
+    fetch("https://floating-castle-51900.herokuapp.com/booking", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -40,10 +40,7 @@ const BookingModal = ({ treatment, date, setTreatment ,refetch }) => {
             text: `Succesfully booked An  Apointment On ${formattedDate}  At ${slot}`,
             icon: "success",
           });
-
-        } 
-        else{
-         
+        } else {
           swal({
             title: `Apointment Of  ${user.displayName}`,
             text: `Already Have An Apointment  Apointment On ${data.booking?.date}  At ${data.booking?.slot}`,
@@ -51,7 +48,7 @@ const BookingModal = ({ treatment, date, setTreatment ,refetch }) => {
           });
         }
         setTreatment(null);
-        refetch()
+        refetch();
       });
   };
 
